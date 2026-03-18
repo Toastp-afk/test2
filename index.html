@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<!-- 📱 Responsive -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 🔗 Preview redes -->
+<meta property="og:title" content="Important Question 💖">
+<meta property="og:description" content="Click and answer honestly 😏">
+
+<title>Important Question 💖</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    text-align: center;
+    overflow-x: hidden;
+}
+
+#container {
+    position: relative;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 10px;
+    transition: all 0.3s ease;
+    touch-action: manipulation;
+}
+
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+#yesBtn {
+    background-color: #4CAF50;
+    color: white;
+    transform: scale(1);
+}
+
+#noBtn {
+    background-color: #f44336;
+    color: white;
+}
+
+#finalScreen {
+    display: none;
+    font-size: 3rem;
+    color: white;
+    animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* 🎉 Confetti */
+.confetti {
+    position: absolute;
+    opacity: 0.8;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-50px) rotate(0deg);
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+    }
+}
+
+/* 📱 Mobile optimization */
+@media (max-width: 500px) {
+    h1 {
+        font-size: 1.8rem;
+        padding: 0 10px;
+    }
+
+    button {
+        font-size: 1rem;
+        padding: 12px 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="container">
+    <h1 id="question">Do you want to be my bf? 💖</h1>
+
+    <button id="yesBtn">Yes 💚</button>
+    <button id="noBtn">No 💔</button>
+</div>
+
+<div id="finalScreen">YAYYYYY 💖✨<br>Good boy 😏</div>
+
+<script>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const question = document.getElementById("question");
+const container = document.getElementById("container");
+const finalScreen = document.getElementById("finalScreen");
+
+let noClicks = 0;
+let scale = 1;
+
+const messages = [
+    "Are you sure? 😢",
+    "Really sure?? 🥺",
+    "Think again 😭",
+    "You're breaking my heart 💔",
+    "This is getting awkward 😳",
+    "Just press YES already 😤"
+];
+
+// 🔊 sonido
+const audio = new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3");
+
+noBtn.addEventListener("click", () => {
+    noClicks++;
+
+    if (noClicks <= messages.length) {
+        question.textContent = messages[noClicks - 1];
+    } else {
+        question.textContent = "Okay fine… you have no choice 😈";
+    }
+
+    // 📱 limitar crecimiento según pantalla
+    const maxScale = window.innerWidth < 500 ? 2 : 3;
+    scale = Math.min(scale + 0.4, maxScale);
+
+    yesBtn.style.transform = `scale(${scale})`;
+
+    // 😈 desactivar NO
+    if (noClicks > 4) {
+        noBtn.disabled = true;
+        noBtn.textContent = "Too late 😏";
+    }
+});
+
+yesBtn.addEventListener("click", () => {
+    audio.play();
+
+    container.style.display = "none";
+    finalScreen.style.display = "block";
+
+    launchConfetti();
+});
+
+function launchConfetti() {
+    for (let i = 0; i < 80; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+
+        const size = Math.random() * 8 + 5;
+
+        confetti.style.width = size + "px";
+        confetti.style.height = size + "px";
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.backgroundColor = getRandomColor();
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + "s";
+
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 4000);
+    }
+}
+
+function getRandomColor() {
+    const colors = ["#ff4d6d", "#f9c74f", "#90be6d", "#577590", "#f72585"];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+</script>
+
+</body>
+</html>
